@@ -19,12 +19,12 @@ public class AddressService {
 
     public void saveAddressesFromCSV(MultipartFile file) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
-             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader())) {
+            CSVParser csvParser = CSVFormat.DEFAULT.parse(reader)) {
 
             for (CSVRecord record : csvParser) {
                 Address address = new Address();
-                address.setPostalCode(record.get("PostalCode"));
-                address.setAddress(record.get("Address"));
+                address.setPostalCode(record.get(2));
+                address.setAddress(record.get(3) + record.get(4) + record.get(5));
                 addressRepository.save(address);
             }
 
